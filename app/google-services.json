@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "178908439218",
+    "project_id": "karich-c63aa",
+    "storage_bucket": "karich-c63aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178908439218:android:11c4fe90a4f36da4a31fab",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp39aDVquHFQmQRJRo7SN9-6nhixVsRMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178908439218:android:796c494a54a2759fa31fab",
+        "android_client_info": {
+          "package_name": "com.android.karich"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp39aDVquHFQmQRJRo7SN9-6nhixVsRMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178908439218:android:ba850f356129ed8ba31fab",
+        "android_client_info": {
+          "package_name": "com.example.karich"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp39aDVquHFQmQRJRo7SN9-6nhixVsRMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

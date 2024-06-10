@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Karich</string>
+    <string name="title_activity_login">activity_login</string>
+</resources>

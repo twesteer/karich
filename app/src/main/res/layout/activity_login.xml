@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    >
+
+    <EditText
+        android:id="@+id/et_email_phone"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Email или телефон"
+        android:background="@color/white"
+        android:textColor="@android:color/black" />
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/et_email_phone"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Пароль"
+        android:inputType="textPassword"
+        android:background="@color/white"
+        android:textColor="@android:color/black" />
+
+    <CheckBox
+        android:id="@+id/cb_remember_me"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_below="@id/et_password"
+        android:layout_marginStart="32dp"
+
+        android:checked="false"
+        android:text="Запомнить меня"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tv_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_below="@id/cb_remember_me"
+
+        android:layout_marginStart="32dp"
+        android:text="Забыли пароль? Напомним!"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_forgot_password"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/button_gradient"
+        android:text="Войти"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

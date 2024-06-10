@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
+
+    <ImageView
+        android:id="@+id/iv_edit_profile_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_background"
+        android:src="@drawable/default_avatar" />
+
+    <Button
+        android:id="@+id/btn_change_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_edit_profile_picture"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Изменить аватарку" />
+
+    <EditText
+        android:id="@+id/et_edit_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_change_picture"
+        android:layout_marginTop="16dp"
+        android:hint="Никнейм" />
+
+    <EditText
+        android:id="@+id/et_edit_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_edit_username"
+        android:layout_marginTop="16dp"
+        android:hint="Био" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_edit_bio"
+        android:layout_marginTop="16dp"
+        android:text="Сохранить" />
+</RelativeLayout>
