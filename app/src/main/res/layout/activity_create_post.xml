@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background_color"
+    tools:context=".MainActivity">
 
     <EditText
         android:id="@+id/et_post_title"
@@ -11,9 +14,11 @@
         android:layout_height="wrap_content"
         android:hint="Заголовок поста"
         android:textSize="18sp"
-        android:padding="8dp"
+        android:padding="12dp"
         android:textColor="@color/white"
-        android:background="@drawable/background_gradient"/>
+        android:background="@drawable/rounded_edittext1"
+        android:elevation="2dp"
+        android:layout_marginBottom="8dp"/>
 
     <EditText
         android:id="@+id/et_post_content"
@@ -21,17 +26,20 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:hint="Содержание поста"
-        android:padding="8dp"
+        android:textSize="16sp"
+        android:padding="12dp"
         android:textColor="@color/white"
-        android:background="@drawable/background_gradient"/>
+        android:background="@drawable/rounded_edittext1"
+        android:elevation="2dp"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btn_publish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Опубликовать"
-        android:background="@drawable/background_gradient"
+        android:background="@drawable/rounded_button"
         android:textColor="@android:color/white"
         android:padding="16dp"
-        android:layout_marginTop="16dp"/>
+        android:elevation="4dp"/>
 </LinearLayout>

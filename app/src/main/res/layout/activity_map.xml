@@ -17,7 +17,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
-        android:text="Ближайшие заправки"/>
+        android:text="Ближайшие заправки"
+        android:background="@drawable/rounded_button"/>
 
     <!-- Список ближайших заправок -->
     <ListView

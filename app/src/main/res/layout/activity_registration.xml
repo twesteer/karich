@@ -8,11 +8,11 @@
         android:id="@+id/et_email_phone"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="200dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:hint="Email или телефон"
-        android:background="@color/white"
+        android:background="@drawable/rounded_edittext1"
         android:textColor="@android:color/black" />
 
     <EditText
@@ -25,7 +25,7 @@
         android:layout_marginEnd="32dp"
         android:hint="Пароль"
         android:inputType="textPassword"
-        android:background="@color/white"
+        android:background="@drawable/rounded_edittext1"
         android:textColor="@android:color/black" />
 
     <Button
@@ -36,7 +36,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/button_gradient"
+        android:background="@drawable/rounded_button"
         android:text="Создать аккаунт"
         android:textColor="@android:color/white" />
 </RelativeLayout>

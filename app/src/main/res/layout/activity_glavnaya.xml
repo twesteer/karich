@@ -89,43 +89,45 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:background="#303030"
+        android:background="@drawable/gradient"
         android:padding="8dp"
         android:gravity="center">
 
         <Button
             android:id="@+id/nav_home"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_home"
             android:backgroundTint="@color/white"
             android:contentDescription="Home" />
 
-        <ImageButton
+
+        <Button
             android:id="@+id/nav_services"
-            android:layout_width="0dp"
+            android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_services"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Services"/>
+            android:layout_marginStart="32dp"
+            android:background="@drawable/ic_services"
+            android:backgroundTint="@color/white"
+            android:contentDescription="Services" />
 
-        <ImageButton
+        <Button
             android:id="@+id/nav_add"
-            android:layout_width="0dp"
+            android:layout_width="57dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_add"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Add"/>
+            android:layout_marginStart="32dp"
+            android:background="@drawable/ic_add"
+            android:backgroundTint="@color/white"
+            android:contentDescription="Add"
+            />
 
-        <ImageButton
+        <Button
             android:id="@+id/nav_profile"
-            android:layout_width="0dp"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_profile"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Profile"/>
+            android:background="@drawable/ic_profile"
+            android:contentDescription="Profile"
+            android:layout_marginStart="32dp"
+            android:backgroundTint="@color/white"/>
     </LinearLayout>
 </RelativeLayout>

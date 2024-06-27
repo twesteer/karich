@@ -1,0 +1,10 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="radial"
+        android:gradientRadius="200dp"
+        android:startColor="@color/button_start"
+        android:endColor="@color/transparent"
+         /> <!-- Полупрозрачный белый центр -->
+    <corners android:radius="16dp"/>
+    <padding android:left="16dp" android:top="8dp" android:right="16dp" android:bottom="8dp"/>
+</shape>

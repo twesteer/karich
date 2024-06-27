@@ -12,7 +12,8 @@
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
         android:background="@drawable/circle_background"
-        android:src="@drawable/default_avatar" />
+        android:src="@drawable/default_avatar"
+        />
 
     <Button
         android:id="@+id/btn_change_picture"
@@ -21,23 +22,26 @@
         android:layout_below="@id/iv_edit_profile_picture"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="Изменить аватарку" />
+        android:text="Изменить аватарку"
+        android:background="@drawable/rounded_button"/>
 
     <EditText
         android:id="@+id/et_edit_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
         android:layout_below="@id/btn_change_picture"
         android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_edittext1"
         android:hint="Никнейм" />
 
     <EditText
         android:id="@+id/et_edit_bio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
         android:layout_below="@id/et_edit_username"
         android:layout_marginTop="16dp"
-        android:hint="Био" />
+        android:hint="Био"
+        android:background="@drawable/rounded_edittext1"/>
 
     <Button
         android:id="@+id/btn_save"
@@ -45,5 +49,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/et_edit_bio"
         android:layout_marginTop="16dp"
-        android:text="Сохранить" />
+        android:text="Сохранить"
+        android:background="@drawable/rounded_button"/>
 </RelativeLayout>

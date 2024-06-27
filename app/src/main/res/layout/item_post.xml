@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/rounded_button">
 
     <TextView
         android:id="@+id/tv_post_title"
@@ -12,7 +12,8 @@
         android:text="Title"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        />
 
     <TextView
         android:id="@+id/tv_post_content"
