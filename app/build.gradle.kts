@@ -76,4 +76,9 @@ dependencies {
     implementation ("com.google.firebase:firebase-database")
     implementation ("com.google.android.gms:play-services-maps:18.0.2")
     implementation("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.google.android.gms:play-services-maps:18.0.2")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("com.yandex.android:maps.mobile:4.1.0-full")
+
+
 }

@@ -1,0 +1,131 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#202020">
+
+    <!-- Верхняя панель с историями -->
+    <HorizontalScrollView
+        android:id="@+id/top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:background="#303030">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Истории -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="8dp">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add"
+                    android:background="@drawable/circle_background"
+                    android:padding="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Моя история"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <!-- Пример другой истории -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="8dp">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add"
+                    android:background="@drawable/circle_background"
+                    android:padding="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Тимурка"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <!-- Добавьте больше историй здесь -->
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Сетка изображений -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/top_panel"
+        android:layout_above="@id/bottom_navigation"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Нижняя панель навигации -->
+    <LinearLayout
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#303030"
+        android:padding="8dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/nav_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_home"
+            android:backgroundTint="@color/white"
+            android:contentDescription="Home" />
+
+        <ImageButton
+            android:id="@+id/nav_services"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_services"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Services"/>
+
+        <ImageButton
+            android:id="@+id/nav_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_add"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Add"/>
+
+        <ImageButton
+            android:id="@+id/nav_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_profile"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Profile"/>
+    </LinearLayout>
+</RelativeLayout>

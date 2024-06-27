@@ -23,6 +23,7 @@ public class Profile extends AppCompatActivity {
     private ImageView ivProfilePicture;
     private TextView tvUsername, tvUserDescription;
     private Button btnPosts, btnPhotos, btnSettings, btnLogout, navAdd;
+    private Button navHomeButton, navServicesButton; // Объявляем переменные для кнопок
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -43,11 +44,28 @@ public class Profile extends AppCompatActivity {
         btnSettings = findViewById(R.id.btn_settings);
         btnLogout = findViewById(R.id.btn_logout);
         navAdd = findViewById(R.id.nav_add);
+        navHomeButton = findViewById(R.id.nav_home);
+        navServicesButton = findViewById(R.id.nav_services); // Инициализируем переменную
+
+        navHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, Glavnaya.class);
+                startActivity(intent);
+            }
+        });
+
+        navServicesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, MapActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Загрузка фрагмента с публикациями
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, new PostsFragment())
                         .commit();
@@ -57,7 +75,6 @@ public class Profile extends AppCompatActivity {
         btnPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Загрузка фрагмента с фотографиями
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, new PhotosFragment())
                         .commit();
@@ -67,7 +84,6 @@ public class Profile extends AppCompatActivity {
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Открытие настроек
                 Intent intent = new Intent(Profile.this, SettingsActivity.class);
                 startActivity(intent);
             }
@@ -76,7 +92,6 @@ public class Profile extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Логаут
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(Profile.this, Login.class);
                 startActivity(intent);
@@ -87,13 +102,11 @@ public class Profile extends AppCompatActivity {
         navAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Открытие CreatePostActivity
                 Intent intent = new Intent(Profile.this, CreatePostActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Загрузка данных профиля
         loadUserProfile();
     }
 

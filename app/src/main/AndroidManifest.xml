@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Karich"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.yandex.maps.apikey"
+            android:value="ae031c72-47c5-46c9-98bf-8a590bd2b0ee"/>
+
+
+        <activity
+            android:name=".MapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Glavnaya"
+            android:exported="false" />
         <activity
             android:name=".CreatePostActivity"
             android:exported="false" />
