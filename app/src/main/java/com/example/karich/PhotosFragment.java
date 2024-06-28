@@ -11,9 +11,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +26,9 @@ public class PhotosFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
-    private List<String> imageUrls;
-    private FirebaseStorage storage;
+    private List<Photo> photoList;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
@@ -33,31 +38,46 @@ public class PhotosFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_photos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        imageUrls = new ArrayList<>();
-        imageAdapter = new ImageAdapter(getContext(), imageUrls);
+        photoList = new ArrayList<>();
+        imageAdapter = new ImageAdapter(getContext(), photoList);
         recyclerView.setAdapter(imageAdapter);
 
-        storage = FirebaseStorage.getInstance();
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        loadImagesFromFirebase();
+        loadPhotos();
 
         return view;
     }
 
-    private void loadImagesFromFirebase() {
-        StorageReference storageRef = storage.getReference().child("postimages");
+    private void loadPhotos() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            db.collection("photos").whereEqualTo("userId", userId)
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                return;
+                            }
 
-        storageRef.listAll().addOnSuccessListener(listResult -> {
-            for (StorageReference item : listResult.getItems()) {
-                item.getDownloadUrl().addOnSuccessListener(uri -> {
-                    imageUrls.add(uri.toString());
-                    imageAdapter.notifyDataSetChanged();
-                }).addOnFailureListener(e -> {
-                    // Обработка ошибок
-                });
-            }
-        }).addOnFailureListener(e -> {
-            // Обработка ошибок
-        });
+                            for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                                switch (dc.getType()) {
+                                    case ADDED:
+                                        photoList.add(dc.getDocument().toObject(Photo.class));
+                                        imageAdapter.notifyItemInserted(photoList.size() - 1);
+                                        break;
+                                    case MODIFIED:
+                                        // Handle modified case if necessary
+                                        break;
+                                    case REMOVED:
+                                        // Handle removed case if necessary
+                                        break;
+                                }
+                            }
+                        }
+                    });
+        }
     }
 }

@@ -16,11 +16,11 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<String> imageUrls;
+    private final List<Photo> photos;
 
-    public ImageAdapter(Context context, List<String> imageUrls) {
+    public ImageAdapter(Context context, List<Photo> photos) {
         this.context = context;
-        this.imageUrls = imageUrls;
+        this.photos = photos;
     }
 
     @NonNull
@@ -32,13 +32,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String imageUrl = imageUrls.get(position);
+        String imageUrl = photos.get(position).getUrl();
         Picasso.get().load(imageUrl).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return imageUrls.size();
+        return photos.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
