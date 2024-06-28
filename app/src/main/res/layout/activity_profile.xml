@@ -134,7 +134,7 @@
             android:layout_width="58dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:background="@drawable/ic_services"
+            android:background="@drawable/ic_map"
             android:backgroundTint="@color/white"
             android:contentDescription="Services" />
 

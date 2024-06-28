@@ -2,33 +2,33 @@ package com.example.karich;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import android.util.Log;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -63,24 +63,91 @@ public class SettingsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference fileReference = storageReference.child("profilePictures/" + UUID.randomUUID().toString());
+
 
         loadUserProfile();
 
-        btnChangePicture.setOnClickListener(v -> {
+        btnChangePicture.setOnClickListener(v -> checkStoragePermission());
+
+        btnSave.setOnClickListener(v -> saveUserProfile());
+    }
+
+    private void checkStoragePermission() {
+        Log.d("SettingsActivity", "Checking storage permission");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33)
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                Log.d("SettingsActivity", "Requesting READ_MEDIA_IMAGES permission");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, REQUEST_PERMISSION);
+            } else {
+                openImagePicker();
+            }
+        } else {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Log.d("SettingsActivity", "Requesting READ_EXTERNAL_STORAGE permission");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
             } else {
                 openImagePicker();
             }
-        });
+        }
+    }
 
-        btnSave.setOnClickListener(v -> saveUserProfile());
+    private void openImagePicker() {
+        Log.d("SettingsActivity", "Opening image picker");
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Выберите изображение"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+            Picasso.get().load(selectedImageUri).into(ivEditProfilePicture);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d("SettingsActivity", "onRequestPermissionsResult: " + requestCode);
+        if (requestCode == REQUEST_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("SettingsActivity", "Permission granted");
+                openImagePicker();
+            } else {
+                Log.d("SettingsActivity", "Permission denied");
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) &&
+                        !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_MEDIA_IMAGES)) {
+                    showPermissionDeniedDialog();
+                } else {
+                    Toast.makeText(this, "Разрешение на чтение хранилища отклонено", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private void showPermissionDeniedDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Разрешение отклонено")
+                .setMessage("Чтобы изменить аватарку, перейдите в настройки приложения и включите разрешение на доступ к хранилищу.")
+                .setPositiveButton("Перейти в настройки", (dialog, which) -> {
+                    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                })
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
     }
 
     private void loadUserProfile() {
         String userId = mAuth.getCurrentUser().getUid();
 
-        db.collection("Users").document(userId).get()
+        db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
@@ -99,22 +166,6 @@ public class SettingsActivity extends AppCompatActivity {
                 });
     }
 
-    private void openImagePicker() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Выберите изображение "), PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedImageUri = data.getData();
-            Picasso.get().load(selectedImageUri).into(ivEditProfilePicture);
-        }
-    }
-
     private void saveUserProfile() {
         String userId = mAuth.getCurrentUser().getUid();
         String newUsername = etEditUsername.getText().toString().trim();
@@ -122,14 +173,21 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (selectedImageUri != null) {
             StorageReference fileReference = storageReference.child("profilePictures/" + UUID.randomUUID().toString());
+            Log.d("SettingsActivity", "Uploading file to: " + fileReference.getPath());
             fileReference.putFile(selectedImageUri)
-                    .addOnSuccessListener(taskSnapshot -> fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String profilePictureUrl = uri.toString();
-                        updateUserProfile(userId, newUsername, newBio, profilePictureUrl);
-                    }))
+                    .addOnSuccessListener(taskSnapshot -> {
+                        Log.d("SettingsActivity", "File uploaded successfully");
+                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String profilePictureUrl = uri.toString();
+                            updateUserProfile(userId, newUsername, newBio, profilePictureUrl);
+                        }).addOnFailureListener(e -> {
+                            Log.e("SettingsActivity", "Failed to get download URL", e);
+                            Toast.makeText(SettingsActivity.this, "Ошибка получения URL изображения: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+                    })
                     .addOnFailureListener(e -> {
+                        Log.e("SettingsActivity", "Failed to upload file", e);
                         Toast.makeText(SettingsActivity.this, "Ошибка загрузки изображения: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("SettingsActivity", "Ошибка загрузки изображения", e);
                     });
         } else {
             updateUserProfile(userId, newUsername, newBio, null);
@@ -137,9 +195,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void updateUserProfile(String userId, String username, String bio, @Nullable String profilePictureUrl) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Составляем данные для обновления
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
         userData.put("bio", bio);
@@ -147,37 +202,30 @@ public class SettingsActivity extends AppCompatActivity {
             userData.put("profilePictureUrl", profilePictureUrl);
         }
 
-        // Проверяем, что данные не пустые перед сохранением
         if (username.isEmpty()) {
             Toast.makeText(SettingsActivity.this, "Имя пользователя не может быть пустым", Toast.LENGTH_SHORT).show();
-            return;
+            return; // Exit the method if username is empty
         }
 
-        db.collection("users").document(userId)
-                .set(userData)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(SettingsActivity.this, "Профиль обновлен", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(SettingsActivity.this, "Ошибка обновления профиля", Toast.LENGTH_SHORT).show();
-                        Log.e("SettingsActivity", "Ошибка обновления профиля", task.getException());
-                    }
-                });
-    }
-
-    private void saveUserData(String userId, String username, String bio, @Nullable String profilePictureUrl) {
+        // Initialize Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("users").document(userId);
 
-        db.collection("Users").document(userId)
-                .update("username", username, "bio", bio, "profilePictureUrl", profilePictureUrl)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(SettingsActivity.this, "Профиль обновлен", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(SettingsActivity.this, "Ошибка обновления профиля", Toast.LENGTH_SHORT).show();
+        // Update the document in Firestore
+        userRef.update(userData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(SettingsActivity.this, "Профиль обновлен успешно", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SettingsActivity.this, "Ошибка при обновлении профиля: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+
 }
